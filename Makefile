@@ -25,4 +25,15 @@ GIT_URL 				= $(shell git config --get remote.origin.url)
 COMMIT_ID = $(shell git rev-parse --short HEAD)
 COMMIT_MSG =$(shell git log -1 --pretty=%B | cat )
 
-REG_URI = $(shell git config --get remote.origin.url | sed -e 's/git@//' -e 's/https:\/\///' -e 's/\.git//')
+REG_URI = bunwhoami
+
+
+build:
+	docker build --platform linux/amd64 -t $(REG_URI):$(COMMIT_ID) .
+push:
+	docker push $(REG_URI):$(COMMIT_ID)
+latest:
+	docker tag $(REG_URI):$(COMMIT_ID) $(REG_URI):latest
+	docker push $(REG_URI):latest
+
+build-latest: build push latest
