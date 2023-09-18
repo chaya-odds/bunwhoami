@@ -25,7 +25,7 @@ GIT_URL 				= $(shell git config --get remote.origin.url)
 COMMIT_ID = $(shell git rev-parse --short HEAD)
 COMMIT_MSG =$(shell git log -1 --pretty=%B | cat )
 
-REG_URI = bunwhoami
+REG_URI = chankx/bunwhoami
 
 
 build:

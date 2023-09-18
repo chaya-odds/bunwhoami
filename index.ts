@@ -1,19 +1,27 @@
 import os from "os";
+import data from "./data.json";
+
+const host_name = os.hostname();
+const envData = {};
+envData[host_name] = Bun.env;
 const server = Bun.serve({
-    port: Bun.env.PORT || 3000,
-    fetch(request) {
-
-      const resp ={};
-      
-      const host_name = os.hostname();
-      resp[host_name] = Bun.env
-
-      //return Response.json(resp);
-      return new Response(JSON.stringify(resp), {
+  port: Bun.env.PORT || 3000,
+  fetch(req) {
+    const url = new URL(req.url);
+    if (url.pathname === "/")
+      return new Response(JSON.stringify(envData), {
         headers: { "content-type": "application/json" },
       });
 
-    },
-  });
-  
-  console.log(`Listening on localhost:${server.port}`);
+    if (url.pathname === "/blog") return new Response("Blog!");
+
+    if (url.pathname === "/data")
+      return new Response(JSON.stringify(data), {
+        headers: { "content-type": "application/json" },
+      });
+
+    return new Response("404!");
+  },
+});
+
+console.log(`Listening on ${host_name}:${server.port}`);
