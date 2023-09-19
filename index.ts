@@ -1,5 +1,5 @@
 import os from "os";
-import data from "./data.json";
+import data from "./storage/data.json";
 
 const host_name = os.hostname();
 const envData = {};

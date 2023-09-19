@@ -37,3 +37,6 @@ latest:
 	docker push $(REG_URI):latest
 
 build-latest: build push latest
+
+run:
+	docker run --name bunwhoami -it --rm -p 8080:3000 -v ./package.json:/app/data.json $(REG_URI):latest
